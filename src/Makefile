@@ -5,9 +5,9 @@ SHARED = -shared -fPIC
 SRC= luapblib.cpp msgtotbl.cpp pbmanager.cpp wrapmessage.cpp udata.cpp
 OBJS=$(subst .cpp,.o,$(SRC))
 
-LUA_INC = /usr/local/include
-PB_INC = /usr/local/include
-PB_LIB = /usr/local/lib
+LUA_INC = ../third/lua/include
+PB_INC = ../third/protobuf/include
+PB_LIB = ../third/protobuf/lib
 
 all : libluaprotobuf.so
 
