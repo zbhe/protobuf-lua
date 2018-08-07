@@ -39,18 +39,31 @@
 	} \
 
 
-void _tostring_help(std::ostringstream& ss){}
-template<typename T, typename... Params> void _tostring_help(std::ostringstream& ss, T&& First, Params&&... Last)
+class tostring
 {
-	ss << First;
-	_tostring_help(ss, std::forward<Params>(Last)...);
-}
-template<typename... Params> std::string tostring(Params&&... Args)
-{
-	std::ostringstream OStr;
-	_tostring_help(OStr, std::forward<Params>(Args)...);
-	return OStr.str();
-}
+private:
+	const std::string Sep;
+	void do_tostring(std::ostringstream& ss){}
+	template<typename First, typename... Last> void do_tostring(std::ostringstream& ss, First&& F, Last&&... L)
+	{
+		ss << F;
+		if( sizeof...(L) > 0 ){
+			ss << Sep;
+		}
+		do_tostring(ss, std::forward<Last>(L)...);
+	}
+public:
+	tostring() = default;
+	template<typename T> tostring(T&& _Sep):Sep{std::forward<T>(_Sep)}{}
+
+	template<typename... Params> std::string operator () (Params&&... Args)
+	{
+		std::ostringstream OStr;
+		do_tostring(OStr, std::forward<Params>(Args)...);
+		return OStr.str();
+	}
+};
+
 std::string string_format(const char * fmt, ...);
 void RegisterType(lua_State * L, const char * typeMetaName, const struct luaL_Reg meths[]);
 int GetUDID();
