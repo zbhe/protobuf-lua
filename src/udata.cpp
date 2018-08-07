@@ -1,6 +1,6 @@
 #include "udata.hpp"
 
-const std::string string_format(const char * fmt, ...)
+std::string string_format(const char * fmt, ...)
 {
 	const size_t STR_FMT_MAX_LEN = 5120;
 	char buf[STR_FMT_MAX_LEN];
@@ -18,7 +18,7 @@ void RegisterType(lua_State * L, const char * typeMetaName, const struct luaL_Re
 	luaL_newmetatable(L, typeMetaName);
 	lua_pushvalue(L, -1);
 	lua_setfield(L, -2, "__index");
-	luaL_register(L, NULL, meths);
+	luaL_register(L, nullptr, meths);
 	lua_settop(L, top);
 }
 
@@ -37,41 +37,9 @@ void *lua_newuserdataEx (lua_State *L, int udata_id, size_t size)
 void *luaL_checkudataEx (lua_State *L, int ud, int udata_id)
 {
 	void *p = lua_touserdata(L, ud);
-	if (p != NULL && *((int *)p) == udata_id)
+	if (p != nullptr && *((int *)p) == udata_id)
 		return (void *)((char *)p + sizeof(int));
 	luaL_typerror(L, ud, string_format("userdata(id:%d, got:%d)", udata_id, p ? *(int*)p : -1).c_str());  /* else error */
-	return NULL;  /* to avoid warnings */
-}
-void *luaL_checkudataExWithException (lua_State *L, int ud, int udata_id) throw (LUTILException)
-{
-	void *p = lua_touserdata(L, ud);
-	if (p != NULL && *((int *)p) == udata_id)
-		return (void *)((char *)p + sizeof(int));
-	throw LUTILException(string_format("%s expected, got %s", string_format("userdata(id:%d)", udata_id).c_str(), luaL_typename(L, ud)));
-}
-void *luaL_checkudatalistEx (lua_State *L, int ud, const int udata_id_list[], size_t list_size, const char * summary_tname)
-{
-	void *p = lua_touserdata(L, ud);
-	if (p != NULL)
-	{
-		int CurId = *((int *)p);
-		for (size_t i = 0 ; i < list_size ; i++)
-			if (udata_id_list[i] == CurId)
-				return (void *)((char *)p + sizeof(int));
-	}
-	luaL_typerror(L, ud, summary_tname);  /* else error */
-	return NULL;  /* to avoid warnings */
-}
-void *luaL_checkudatalistExWithException (lua_State *L, int ud, const int udata_id_list[], size_t list_size, const char * summary_tname)
-{
-	void *p = lua_touserdata(L, ud);
-	if (p != NULL)
-	{
-		int CurId = *((int *)p);
-		for (size_t i = 0 ; i < list_size ; i++)
-			if (udata_id_list[i] == CurId)
-				return (void *)((char *)p + sizeof(int));
-	}
-	throw LUTILException(string_format("%s expected, got %s", summary_tname, luaL_typename(L, ud)));
+	return nullptr;
 }
 
