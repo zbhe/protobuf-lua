@@ -1,7 +1,7 @@
 #include "msgtotbl.hpp"
 
 #include <unordered_set>
-namespace protocol{
+namespace pb{
 
 MsgToTbl::MsgToTbl(lua_State* L, const Message& msg) : m_L(L), m_msg(msg), m_pRefl(msg.GetReflection())
 {

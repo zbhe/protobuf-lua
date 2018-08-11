@@ -1,22 +1,24 @@
+LUA_INC = ../third/lua/include
+PB_INC = ../third/protobuf/include
 CC = g++
-CFLAGS = -g -O2 -Wall -std=c++14
-SHARED = -shared -fPIC
+CPPFLAGS = -g -O2 -Wall -std=c++14 -I $(LUA_INC) -I $(PB_INC)
+#SHARED = -shared -fPIC
+SHARED = -dynamiclib -fPIC #mac
 
 SRC= luapblib.cpp msgtotbl.cpp pbmanager.cpp wrapmessage.cpp udata.cpp
 OBJS=$(subst .cpp,.o,$(SRC))
 
-LUA_INC = ../third/lua/include
-PB_INC = ../third/protobuf/include
 PB_LIB = ../third/protobuf/lib
+LUALIB = ../third/lua/lib/liblua.a
 
-all : libluaprotobuf.so
+all : libpb.so
 
-libluaprotobuf.so : $(OBJS)
-	$(CC) $(CFLAGS) $(SHARED) -o$@ $^ -I$(LUA_INC) -I$(PB_INC) -L$(PB_LIB) -Wl,-Bdynamic 
+libpb.so : $(OBJS)
+	$(CC) $(CFLAGS) $(SHARED) -o$@ $^ $(LUALIB) -L$(PB_LIB) -lprotobuf
 
 clean :
 	rm -f *.o
-	rm -f libluaprotobuf.so
+	rm -f libpb.so
 
 test : 
 	lua test.lua

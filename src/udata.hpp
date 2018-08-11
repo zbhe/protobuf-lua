@@ -4,7 +4,7 @@
 #include <string>
 #include <sstream>
 #include "lua.hpp"
-#include "lstate.h"
+//#include "lstate.h"
 
 #define SET_UDATA_METATABLE(L, MT) \
 	{\

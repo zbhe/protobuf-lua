@@ -18,7 +18,8 @@ void RegisterType(lua_State * L, const char * typeMetaName, const struct luaL_Re
 	luaL_newmetatable(L, typeMetaName);
 	lua_pushvalue(L, -1);
 	lua_setfield(L, -2, "__index");
-	luaL_register(L, nullptr, meths);
+	//luaL_register(L, nullptr, meths);
+	luaL_setfuncs(L, meths, 0);
 	lua_settop(L, top);
 }
 
@@ -39,7 +40,7 @@ void *luaL_checkudataEx (lua_State *L, int ud, int udata_id)
 	void *p = lua_touserdata(L, ud);
 	if (p != nullptr && *((int *)p) == udata_id)
 		return (void *)((char *)p + sizeof(int));
-	luaL_typerror(L, ud, string_format("userdata(id:%d, got:%d)", udata_id, p ? *(int*)p : -1).c_str());  /* else error */
+	luaL_argerror(L, ud, string_format("userdata(id:%d, got:%d)", udata_id, p ? *(int*)p : -1).c_str());  /* else error */
 	return nullptr;
 }
 

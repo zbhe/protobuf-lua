@@ -3,7 +3,7 @@
 #include "msgtotbl.hpp"
 #include "pbmanager.hpp"
 #include "udata.hpp"
-namespace protocol{
+namespace pb{
 using namespace std::literals::string_literals;
 
 WrapMessage::WrapMessage(Message* MsgPtr):m_Ptr(MsgPtr),
@@ -39,13 +39,13 @@ void WrapMessage::SetField(lua_State* L, const std::string& sField)
 	switch (eCppType)
 	{
 	case Fd::CPPTYPE_INT32:
-		m_pRefl->SetInt32(m_Ptr, pField, luaL_checkint(L, -1));
+		m_pRefl->SetInt32(m_Ptr, pField, luaL_checkinteger(L, -1));
 		return;
 	case Fd::CPPTYPE_INT64:
 		m_pRefl->SetInt64(m_Ptr, pField, luaL_checkinteger(L, -1));
 		return;
 	case Fd::CPPTYPE_UINT32:
-		m_pRefl->SetUInt32(m_Ptr, pField, luaL_checkint(L, -1));
+		m_pRefl->SetUInt32(m_Ptr, pField, luaL_checkinteger(L, -1));
 		return;
 	case Fd::CPPTYPE_UINT64:
 		m_pRefl->SetUInt64(m_Ptr, pField, luaL_checkinteger(L, -1));
@@ -131,13 +131,13 @@ void WrapMessage::SetRepeatedField(lua_State* L, const FieldDescriptor* pField)
 		switch (eCppType)
 		{
 		case Fd::CPPTYPE_INT32:
-			m_pRefl->AddInt32(m_Ptr, pField, luaL_checkint(L, -1));
+			m_pRefl->AddInt32(m_Ptr, pField, luaL_checkinteger(L, -1));
 			break;
 		case Fd::CPPTYPE_INT64:
 			m_pRefl->AddInt64(m_Ptr, pField, luaL_checkinteger(L, -1));
 			break;
 		case Fd::CPPTYPE_UINT32:
-			m_pRefl->AddUInt32(m_Ptr, pField, luaL_checkint(L, -1));
+			m_pRefl->AddUInt32(m_Ptr, pField, luaL_checkinteger(L, -1));
 			break;
 		case Fd::CPPTYPE_UINT64:
 			m_pRefl->AddUInt64(m_Ptr, pField, luaL_checkinteger(L, -1));

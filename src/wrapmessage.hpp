@@ -7,7 +7,7 @@
 #include <memory>  // for shared_ptr<>
 #include <string>
 #include "lua.hpp"
-namespace protocol{
+namespace pb{
 using namespace ::google::protobuf;
 class WrapMessage
 {

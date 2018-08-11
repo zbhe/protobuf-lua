@@ -3,7 +3,7 @@
 
 #include <google/protobuf/message.h>  // for Message
 #include "lua.hpp"
-namespace protocol{
+namespace pb{
 using namespace ::google::protobuf;
 
 // Message to lua table converter.

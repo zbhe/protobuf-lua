@@ -6,9 +6,8 @@
 #include "pbmanager.hpp"
 #include "wrapmessage.hpp"
 #include "udata.hpp"
-#include "ptorpc.hpp"
 
-namespace protocol{
+namespace pb{
 
 using namespace ::google::protobuf;
 
@@ -84,20 +83,19 @@ static const struct luaL_Reg libmeth[] = {
 	{"add_proto_path", add_path},
 	{"import_proto", import_proto},
 	{"get_message", get_message},
-	{"register", LuaRegister},
-	{"call", LuaCallRpc},
 	{NULL, NULL},
 };
 
 };//end namespace
 
+//extern "C" void luaopen_pb(lua_State*) asm("luaopen_pb");
 extern "C"
 #if defined(_MSC_VER) || defined(__BORLANDC__) || defined(__CODEGEARC__)
 __declspec(dllexport)
 #endif
-void luaopen_luapb(lua_State* L)
+void luaopen_pb(lua_State* L)
 {
-	protocol::Init();
-	RegisterType(L, protocol::MESSAGE_META, protocol::message);
-	luaL_register(L, "rpc", protocol::libmeth);
+	RegisterType(L, pb::MESSAGE_META, pb::message);
+	//luaL_register(L, "rpc", pb::libmeth);
+	luaL_newlib(L, pb::libmeth);
 }

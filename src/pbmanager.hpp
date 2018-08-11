@@ -11,7 +11,7 @@
 #include "lua.hpp"
 #include "wrapmessage.hpp"  // for MessageSptr
 
-namespace protocol{
+namespace pb{
 
 using namespace ::google::protobuf;
 

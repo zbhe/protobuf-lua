@@ -1,7 +1,7 @@
 #include <sstream>  // for ostringstream
 
 #include "pbmanager.hpp"
-namespace protocol{
+namespace pb{
 
 class ErrorCollector : public compiler::MultiFileErrorCollector
 {
