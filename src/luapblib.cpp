@@ -88,14 +88,14 @@ static const struct luaL_Reg libmeth[] = {
 
 };//end namespace
 
-//extern "C" void luaopen_pb(lua_State*) asm("luaopen_pb");
 extern "C"
 #if defined(_MSC_VER) || defined(__BORLANDC__) || defined(__CODEGEARC__)
 __declspec(dllexport)
 #endif
-void luaopen_pb(lua_State* L)
+int luaopen_lpb(lua_State* L)
 {
 	RegisterType(L, pb::MESSAGE_META, pb::message);
 	//luaL_register(L, "rpc", pb::libmeth);
 	luaL_newlib(L, pb::libmeth);
+	return 1;
 }
