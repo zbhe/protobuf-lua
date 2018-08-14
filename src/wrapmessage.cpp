@@ -127,7 +127,7 @@ void WrapMessage::SetRepeatedField(lua_State* L, const FieldDescriptor* pField)
 	using Fd = FieldDescriptor;
 	Fd::CppType eCppType = pField->cpp_type();
 	while( lua_next(L, -2) ){
-		int SaveStack = lua_gettop(L);
+		int SaveStack = lua_gettop(L) - 1;
 		switch (eCppType)
 		{
 		case Fd::CPPTYPE_INT32:
@@ -172,7 +172,6 @@ void WrapMessage::SetRepeatedField(lua_State* L, const FieldDescriptor* pField)
 			luaL_error(L, (string("Unknown field type ") + pField->CppTypeName(eCppType) + " of " + pField->full_name()).c_str());
 			break;
 		}
-		lua_pop(L, 1);
 		lua_settop(L, SaveStack);
 	}
 }
