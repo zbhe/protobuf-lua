@@ -2,7 +2,7 @@
 pack/unpack protobuf from lua 5.3
 
 test:
-
+```
 lpb = require "lpb"
 lpb.add_proto_path("./src/test/")
 lpb.import_proto("test.proto")
@@ -17,3 +17,4 @@ local tbl =msg:decode(str)
 for k, v in pairs(tbl) do
   print(k, v)
 end
+```
