@@ -47,19 +47,19 @@ static const struct luaL_Reg message[] = {
 
 static int add_path(lua_State* L)
 {
-	if (LUA_TSTRING != lua_type(L, 2)){
+	if (LUA_TSTRING != lua_type(L, 1)){
 		return luaL_error(L, "path must to be string");
 	}
-	PbManager::GetManager().AddProtoPath(luaL_checkstring(L, 2));
+	PbManager::GetManager().AddProtoPath(luaL_checkstring(L, 1));
 	return 0;
 }
 
 static int import_proto(lua_State* L)
 {
-	if (LUA_TSTRING != lua_type(L, 2)){
+	if (LUA_TSTRING != lua_type(L, 1)){
 		return luaL_error(L, "path must to be string");
 	}
-	if( ! PbManager::GetManager().ImportProtoFile(luaL_checkstring(L, 2)) ){
+	if( ! PbManager::GetManager().ImportProtoFile(luaL_checkstring(L, 1)) ){
 		luaL_error(L, "import failed");
 	}
 	return 0;
@@ -67,11 +67,12 @@ static int import_proto(lua_State* L)
 
 static int get_message(lua_State* L)
 {
-	if (LUA_TSTRING != lua_type(L, 2)){
+	if (LUA_TSTRING != lua_type(L, 1)){
 		return luaL_error(L, "message name must to be string");
 	}
-	Message* MsgPtr = PbManager::GetManager().MakeMessage(luaL_checkstring(L, 2));
+	Message* MsgPtr = PbManager::GetManager().MakeMessage(luaL_checkstring(L, 1));
 	if( nullptr == MsgPtr ){
+		luaL_error(L, "MakeMessage failed");
 		return 0;
 	}
 	WrapMessage* RetPtr = nullptr;
