@@ -1,7 +1,19 @@
 # protobuf-lua
 pack/unpack protobuf from lua 5.3
 
-test:
+test.proto:
+```
+package test;
+
+message Person {
+	required string name = 1;
+	required int32 id = 2;
+	repeated string friends = 3;
+	optional string email = 4;
+}
+```
+
+test.lua
 ```
 lpb = require "lpb"
 lpb.add_proto_path("./src/test/")
